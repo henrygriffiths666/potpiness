@@ -73,11 +73,11 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/*
-          tag: ${{ env.WGGO_VERSION }} ${{env.strDate}}  
+          tag: ${{env.strDate}}  
           overwrite: true
           file_glob: true
           prerelease: false
-          release_name: ${{ env.WGGO_VERSION }} ${{env.strDate}}  
+          release_name: ${{env.strDate}}  
   test:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 360
