@@ -1,5 +1,5 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
-# 
+# .github/workflows/wireguard-go-build.yml
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
 name: wireguard-go-build
@@ -49,6 +49,7 @@ jobs:
             WGGO_VERSION=$(curl -fsSL https://api.github.com/repos/WireGuard/wireguard-go/tags | grep 'name' | head -1 | cut -d'"' -f4)
           fi
           echo "WGGO_VERSION=${WGGO_VERSION}" >> $GITHUB_ENV
+          echo "strDate=$(TZ=UTC-8 date +%Y-%m-%d)" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -72,10 +73,11 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/*
-          tag: ${{ env.WGGO_VERSION }}
+          tag: ${{ env.WGGO_VERSION }} ${{env.strDate}}  
           overwrite: true
           file_glob: true
           prerelease: false
+          release_name: ${{ env.WGGO_VERSION }} ${{env.strDate}}  
   test:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 360
